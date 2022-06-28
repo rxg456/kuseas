@@ -2,22 +2,36 @@ from rest_framework import exceptions
 from rest_framework.response import Response
 from rest_framework.views import exception_handler
 
+
 class BaseException(exceptions.APIException):
-    code = 10000 # code为0表示正常，非0都是异常
+    code = 10000  # code为0表示正常，非0都是异常
     message = "未知错误，请联系管理员"
 
     @classmethod
     def get_message(cls):
         return {'code': cls.code, 'message': cls.message}
 
+
 class InvalidUsernameOrPassword(BaseException):
     code = 1
     message = '用户名或密码错误，请重新登录'
 
 
+class NotAuthenticated(BaseException):
+    code = 2
+    message = '认证失败，请重新登录'
+
+
+class InvalidToken(BaseException):
+    code = 3
+    message = '认证过期，请重新登录'
+
+
 # Django Drf异常类 要做映射和替换
 exc_map = {
-    'AuthenticationFailed': InvalidUsernameOrPassword
+    'AuthenticationFailed': InvalidUsernameOrPassword,
+    'NotAuthenticated': NotAuthenticated,
+    'InvalidToken': InvalidToken
 }
 
 
@@ -34,6 +48,5 @@ def global_exception_handler(exc, context):
             errmsg = exc.get_message()
         else:
             errmsg = exc_map.get(exc.__class__.__name__, BaseException).get_message()
-        return Response(errmsg, status=200) # 恒为200
+        return Response(errmsg, status=200)  # 恒为200
     return response
-
