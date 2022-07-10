@@ -78,9 +78,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'kuseas',
         'USER': 'kuseas',
-        'PASSWORD': 'kubernetes@2020',
-        'HOST': '139.198.117.88',
-        'PORT': '13306',
+        'PASSWORD': 'kuseas',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
 
