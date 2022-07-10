@@ -26,6 +26,10 @@ class InvalidToken(BaseException):
     code = 3
     message = '认证过期，请重新登录'
 
+class InvalidPassword(BaseException):
+    code = 101
+    message = "原密码校验失败"
+
 
 # Django Drf异常类 要做映射和替换
 exc_map = {
